@@ -13,5 +13,16 @@ Skip-Inception U-Net, or SIU-Net, is developed to suitably segment the Thoracic 
 
 ![alt text](/images/SIU-Net.png)
 
-To solve the issue of choosing an appropriate kernel size to handle large variability in the spine image dataset, the concept of Inception block (IB) is adopted to develop a high-performance segmentation model. A modified IB of Inception V2 architecture is introduced to replace the traditional convolutional layers of basic U-Net. IB has two advantages: (a) it increases the depth and width of the model without any increase in the computational requirement, and (b) it allows the flexibility of using multiple filter sizes within the same level.
+In SIU-Net, the output of the previous IB of the decoder of the same dense block is merged with the corresponding up-sampled output of the lower dense block through dense skip connections (DSC) (Fig. 3). Through a dense convolution operation, each node in a decoder is presented with a final aggregated-fused feature map containing: a) the feature from the previous decoder, b) intermediate block combined feature maps and c) the same-scale feature from the corresponding encoder, as it is possible to see in the SIU-Net architecture.
+
+To solve the issue of choosing an appropriate kernel size to handle large variability in the spine image dataset, the concept of Inception block (IB) is adopted to develop a high-performance segmentation model. A modified IB of Inception V2 architecture is introduced to replace the traditional convolutional layers of basic U-Net. IB has two advantages: (a) it increases the depth and width of the model without any increase in the computational requirement, and (b) it allows the flexibility of using multiple filter sizes within the same level. The architecture of the designed Inception Block is shown below.
+
+![alt text](/images/InceptionBlock.png)
+
+For more information on this model, read the [paper.](https://www.sciencedirect.com/science/article/abs/pii/S0208521622000146)https://www.sciencedirect.com/science/article/abs/pii/S0208521622000146)
+
+
+
+
+
 
