@@ -19,7 +19,7 @@ To solve the issue of choosing an appropriate kernel size to handle large variab
 
 ![alt text](/images/InceptionBlock.png)
 
-For more information on this model, read the [paper.](https://www.sciencedirect.com/science/article/abs/pii/S0208521622000146)https://www.sciencedirect.com/science/article/abs/pii/S0208521622000146)
+For more information on this model, read the [paper.](https://www.sciencedirect.com/science/article/abs/pii/S0208521622000146)
 
 
 
