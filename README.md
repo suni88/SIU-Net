@@ -10,3 +10,5 @@ This model was originally designed to perform the segmentation of ultrasound spi
 
 ## SIU-Net Model
 Skip-Inception U-Net, or SIU-Net, is developed to suitably segment the Thoracic Bony Features and Lumbar Bony Features in the ultrasound spine image dataset. The standard U-Net is adopted as the main network architecture, and the simple convolutional layers are replaced with Inception blocks. The encoders-decoders are bridged using newly designed decoder side skip pathways. The architecture of the proposed network of SIU-Net is shown below.
+
+![alt text](/images/SIU-Net.png)
