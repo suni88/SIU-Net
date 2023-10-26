@@ -1,17 +1,14 @@
 import os 
 import numpy as np 
-from tqdm import tqdm 
-import tensorflow as tf 
-import matplotlib.pyplot as plt 
-from keras.layers import Input, merge, Dropout, Dense, Lambda, Flatten, Activation 
+import tensorflow as tf
 from keras.layers import Input, Conv2D, MaxPooling2D, Conv2DTranspose, concatenate, BatchNormalization, Activation, add 
 from keras.layers.convolutional import MaxPooling2D, AveragePooling2D 
 from keras.models import Model, model_from_json 
 from keras.optimizers import * 
-from keras.layers.advanced_activations import ELU, LeakyReLU 
+# from keras.layers.advanced_activations import ELU, LeakyReLU
 from keras.utils.vis_utils import plot_model 
 from keras import backend as K  
-from data import * 
+from data import *
 
 
 def conv2d_bn(x, filters, num_row, num_col, padding='same', strides=(1, 1), activation='relu', name=None): 
@@ -92,10 +89,11 @@ def siu_inception(U, inp, alpha = 1.67):
     conv2 = conv2d_bn(inp, U, 1, 1, activation='relu', padding='same')
     conv22 = conv2d_bn(conv2, U, 3, 3,activation='relu', padding='same')
 
-    pool = MaxPooling2D(pool_size=(2, 2))(inp)
+    pool = MaxPooling2D(pool_size=(1, 1))(inp)
     convp = conv2d_bn(pool, U, 3, 3,activation='relu', padding='same')
     
-    out = concatenate([conv11, conv22, convp], axis=3)
+    # out = concatenate([conv11, conv22, convp], axis=3)
+    out = conv11+conv22+convp
     out = BatchNormalization(axis=3)(out)
 
     out = add([shortcut, out])
@@ -176,7 +174,7 @@ def siu_net(height, width, n_channels):
 
     mresblock5 = siu_inception(32*16, pool4) 
     
-    up6 = concatenate([Conv2DTranspose( 32*8, (2, 2), strides=(2, 2), padding='same')(mresblock5), mresblock4], axis=3) 
+    up6 = concatenate([Conv2DTranspose(32*8, (2, 2), strides=(2, 2), padding='same')(mresblock5), mresblock4], axis=3)
     mresblock6 = siu_inception(32*8, up6) 
     mresblock6_up1 = Conv2DTranspose(8 * 32, (2, 2), strides=(2, 2), padding="same")(mresblock6) 
     mresblock6_up2 = Conv2DTranspose(8 * 32, (2, 2), strides=(2, 2), padding="same")(mresblock6_up1) 
@@ -202,8 +200,8 @@ def siu_net(height, width, n_channels):
 
     conv10 = conv2d_bn(mresblock9, 1, 1, 1, activation='sigmoid') 
 
-    model = Model(inputs=[inputs], outputs=[conv10]) 
+    model = Model(inputs=[inputs], outputs=[conv10])
 
-    model.compile(optimizer = tf.keras.optimizers.Adam(lr = 1e-4), loss = 'binary_crossentropy', metrics = [jacard,'accuracy']) 
+    model.compile(optimizer = tf.keras.optimizers.Adam(lr = 1e-4), loss = 'binary_crossentropy', metrics = ['accuracy'])
 
     return model 
